@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import { Pressable } from "react-native";
+import { TouchableWithoutFeedback } from "react-native-web";
 
 const emojis = ["❤️", "🙌", "🔥", "👏", "😢", "😍", "😲", "😂"];
 
@@ -58,116 +59,122 @@ function FeedPost({ post }) {
           setModalVisibility(!modalVisibility);
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "flex-end",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-          }}
-        >
+        <TouchableWithoutFeedback onPress={() => setModalVisibility(false)}>
           <View
             style={{
-              maxHeight: "80%",
-              backgroundColor: "white",
-              borderTopLeftRadius: 15,
-              borderTopRightRadius: 15,
-              paddingHorizontal: 20,
-              paddingTop: 20,
+              flex: 1,
+              justifyContent: "flex-end",
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
             }}
           >
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "space-between",
-                justifyContent: "space-between",
-              }}
-            >
-              <View style={{ flexDirection: "row", gap: 10 }}>
-                <Pressable onPress={() => setModalVisibility(false)}>
-                  <AntDesign name="arrowleft" size={24} color="black" />
-                </Pressable>
-                <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
-                  Comments
-                </Text>
-              </View>
-              <Feather name="send" size={24} color="black" />
-            </View>
-
-            <ScrollView showsVerticalScrollIndicator={false}>
-              {post.friendComments.map((comment, index) => (
+            <TouchableWithoutFeedback>
+              <View
+                style={{
+                  maxHeight: "80%",
+                  backgroundColor: "white",
+                  borderTopLeftRadius: 15,
+                  borderTopRightRadius: 15,
+                  paddingHorizontal: 20,
+                  paddingTop: 20,
+                }}
+              >
                 <View
-                  key={index}
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "space-between",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{ flexDirection: "row", gap: 10 }}>
+                    <Pressable onPress={() => setModalVisibility(false)}>
+                      <AntDesign name="arrowleft" size={24} color="black" />
+                    </Pressable>
+                    <Text style={{ fontWeight: "bold", marginBottom: 10 }}>
+                      Comments
+                    </Text>
+                  </View>
+                  <Feather name="send" size={24} color="black" />
+                </View>
+
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {post.friendComments.map((comment, index) => (
+                    <View
+                      key={index}
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginBottom: 15,
+                      }}
+                    >
+                      <Image
+                        source={{ uri: comment.imageUrl }}
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: 20,
+                          marginRight: 10,
+                        }}
+                      />
+                      <View>
+                        <Text style={{ fontWeight: "bold" }}>
+                          {comment.name}
+                        </Text>
+                        <Text>{comment.comment}</Text>
+                      </View>
+                    </View>
+                  ))}
+                </ScrollView>
+
+                <View
                   style={{
                     flexDirection: "row",
                     alignItems: "center",
-                    marginBottom: 15,
+                    paddingVertical: 10,
+                    borderTopWidth: 1,
+                    borderTopColor: "#ddd",
+                    // gap: 10,
                   }}
                 >
-                  <Image
-                    source={{ uri: comment.imageUrl }}
+                  <View
                     style={{
-                      width: 40,
-                      height: 40,
-                      borderRadius: 20,
+                      gap: 15,
+                      flexDirection: "row",
                       marginRight: 10,
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
-                  />
-                  <View>
-                    <Text style={{ fontWeight: "bold" }}>{comment.name}</Text>
-                    <Text>{comment.comment}</Text>
+                  >
+                    {emojis.map((comment, index) => (
+                      <Text style={{ fontSize: 30 }}>{emojis[index]}</Text>
+                    ))}
                   </View>
                 </View>
-              ))}
-            </ScrollView>
 
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 10,
-                borderTopWidth: 1,
-                borderTopColor: "#ddd",
-                // gap: 10,
-              }}
-            >
-              <View
-                style={{
-                  gap: 15,
-                  flexDirection: "row",
-                  marginRight: 10,
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }}
-              >
-                {emojis.map((comment, index) => (
-                  <Text style={{ fontSize: 30 }}>{emojis[index]}</Text>
-                ))}
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingVertical: 10,
+                    borderTopWidth: 1,
+                    borderTopColor: "#ddd",
+                  }}
+                >
+                  <TextInput
+                    style={{
+                      flex: 1,
+                      borderWidth: 1,
+                      borderColor: "#ddd",
+                      borderRadius: 20,
+                      paddingHorizontal: 10,
+                      paddingVertical: 5,
+                    }}
+                    placeholder="Add a comment..."
+                  />
+                </View>
               </View>
-            </View>
-
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                paddingVertical: 10,
-                borderTopWidth: 1,
-                borderTopColor: "#ddd",
-              }}
-            >
-              <TextInput
-                style={{
-                  flex: 1,
-                  borderWidth: 1,
-                  borderColor: "#ddd",
-                  borderRadius: 20,
-                  paddingHorizontal: 10,
-                  paddingVertical: 5,
-                }}
-                placeholder="Add a comment..."
-              />
-            </View>
+            </TouchableWithoutFeedback>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </>
   );
